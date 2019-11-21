@@ -41,3 +41,101 @@ public com.in28minutes.rest.webservices.restfulwebservices.HelloWorldBean com.in
 public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
 - Mapped "{[/error],produces=[text/html]}" onto 
 public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+
+
+### Example Requests
+
+#### GET http://localhost:8080/users
+```json
+[
+    {
+        "id": 1,
+        "name": "Adam",
+        "birthDate": "2019-11-21T04:40:20.796+0000"
+    },
+    {
+        "id": 2,
+        "name": "Eve",
+        "birthDate": "2019-11-21T04:40:20.796+0000"
+    },
+    {
+        "id": 3,
+        "name": "Jack",
+        "birthDate": "2019-11-21T04:40:20.796+0000"
+    }
+]
+```
+#### GET http://localhost:8080/users/1
+```json
+{
+    "id": 1,
+    "name": "Adam",
+    "birthDate": "2019-11-21T04:40:20.796+0000"
+}
+```
+#### POST http://localhost:8080/users
+```json
+{
+    "name": "Ranga",
+    "birthDate": "2000-07-19T04:29:24.054+0000"
+}
+```
+
+#### GET http://localhost:8080/users/1000
+- Get request to a non existing resource. 
+- The response shows default error message structure auto configured by Spring Boot.
+
+```json
+{
+    "timestamp": "2019-11-21T05:28:37.534+0000",
+    "status": 404,
+    "error": "Not Found",
+    "message": "id-500",
+    "path": "/users/500"
+}
+```
+
+#### GET http://localhost:8080/users/1000
+- Get request to a non existing resource. 
+- The response shows a Customized Message Structure
+```json
+{
+    "timestamp": "2019-11-21T05:31:01.961+0000",
+    "message": "id-500",
+    "details": "Any details you would want to add"
+}
+```
+
+#### POST http://localhost:8080/users with Validation Errors
+
+##### Request
+```json
+{
+    "name": "R",
+    "birthDate": "2000-07-19T04:29:24.054+0000"
+}
+```
+##### Response - 400 Bad Request
+```json
+{
+    "timestamp": "2019-11-21T09:00:27.912+0000",
+    "message": "Validation Failed",
+    "details": "org.springframework.validation.BeanPropertyBindingResult: 1 errors\nField error in object 'user' on field 'name': rejected value [R]; codes [Size.user.name,Size.name,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [user.name,name]; arguments []; default message [name],2147483647,2]; default message [Name should have atleast 2 characters]"
+}
+```
+#### GET http://localhost:8080/users/1 with HATEOAS
+```json
+{
+    "id": 1,
+    "name": "Adam",
+    "birthDate": "2019-11-21T14:25:26.787+0000",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/users/1"
+        },
+        "all-users": {
+            "href": "http://localhost:8080/users"
+        }
+    }
+}
+```
