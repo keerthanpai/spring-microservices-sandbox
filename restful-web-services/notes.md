@@ -139,3 +139,53 @@ public org.springframework.web.servlet.ModelAndView org.springframework.boot.aut
     }
 }
 ```
+#### Internationalization
+
+##### Configuration 
+- LocaleResolver
+   - Default Locale - Locale.US
+- ResourceBundleMessageSource
+
+##### Usage
+- Autowire MessageSource
+- @RequestHeader(value = "Accept-Language", required = false) Locale locale
+- messageSource.getMessage("helloWorld.message", null, locale)
+
+### XML Representation of Resources
+
+#### GET http://localhost:8080/users
+- Accept application/xml
+```xml
+<List>
+    <item>
+        <id>2</id>
+        <name>Eve</name>
+        <birthDate>2019-11-21T10:25:20.450+0000</birthDate>
+    </item>
+    <item>
+        <id>3</id>
+        <name>Jack</name>
+        <birthDate>2019-11-21T10:25:20.450+0000</birthDate>
+    </item>
+    <item>
+        <id>4</id>
+        <name>Govinda</name>
+        <birthDate>2019-11-21T10:25:20.450+0000</birthDate>
+    </item>
+</List>
+```
+
+#### POST http://localhost:8080/users
+- Accept : application/xml
+- Content-Type : application/xml
+
+Request
+```xml
+<item>
+        <name>Govinda</name>
+        <birthDate>2019-11-21T10:25:20.450+0000</birthDate>
+</item>
+```
+
+Response
+- Status - 201 Created
