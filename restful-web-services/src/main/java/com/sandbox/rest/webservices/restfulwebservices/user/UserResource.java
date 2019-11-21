@@ -22,7 +22,11 @@ public class UserResource {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id) {
-        return service.findOne(id);
+        final User user = service.findOne(id);
+        if(user == null){
+            throw new UserNotFoundException("Id-"+id);
+        }
+        return user;
     }
 
     //input : user name, birthday json
