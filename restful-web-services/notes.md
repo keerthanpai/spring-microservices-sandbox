@@ -238,3 +238,24 @@ public class User {
 	@ApiModelProperty(notes = "Birth Date should be in the Past")
 	private Date birthDate;
 ```
+#### Filtering - Static using JsonIgnoreProperties/JsonIgnore, Dynamic using JsonFilter
+
+##### Code
+```java
+@JsonIgnoreProperties(value={"field1"})
+public class SomeBean {
+	
+	private String field1;
+	
+	@JsonIgnore
+	private String field2;
+	
+	private String field3;
+
+```
+##### Response
+```json
+{
+    "field3": "value3"
+}
+```
