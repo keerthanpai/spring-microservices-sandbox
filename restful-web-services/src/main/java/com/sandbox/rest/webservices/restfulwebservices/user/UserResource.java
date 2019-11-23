@@ -1,5 +1,6 @@
 package com.sandbox.rest.webservices.restfulwebservices.user;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -26,6 +27,8 @@ public class UserResource {
 
 
     @GetMapping("/users/{id}")
+    @ApiOperation(value = "Finds Users by id",
+            notes = "Also returns a link to retrieve all users with rel - all-users")
     public EntityModel<User> retrieveUser(@PathVariable int id) {
         final User user = service.findOne(id);
         if(user == null){
